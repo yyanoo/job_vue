@@ -2,8 +2,7 @@ const base_url = "https://localhost:7145/api/"
 
 export async function getOrder() {
     const res = await fetch(`${base_url}order`)
-    const req = await res.json();
-    return req;
+    return res.json();
 }
 
 export async function createOrder(data) {
@@ -14,8 +13,7 @@ export async function createOrder(data) {
         },
         body: JSON.stringify(data)
     })
-    const req = await res.json();
-    return req;
+    return res.json();
 }
 
 export async function updateOrder(data) {
@@ -26,8 +24,7 @@ export async function updateOrder(data) {
         },
         body: JSON.stringify(data)
     })
-    const req = await res.json();
-    return req;
+    return res.json();
 }
 
 export async function delOrder(data) {
@@ -38,6 +35,5 @@ export async function delOrder(data) {
         },
         body: JSON.stringify(data)
     })
-    const req = await res.json();
-    return req;
+    return res.json();
 }

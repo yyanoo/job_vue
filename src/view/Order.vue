@@ -1,75 +1,34 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useOrderStore } from '../store/order_store';
 
 const orderStore = useOrderStore()
 
-const loading = ref(true)
-const error = ref(null)
-
 onMounted(async () => {
-    try {
-        await orderStore.getOrder_api()
-    } catch (err) {
-        error.value = err.message
-        console.error('Error fetching orders:', err)
-    } finally {
-        setTimeout(() => {
-            loading.value = false
-        }, 1000)
-    }
+    await orderStore.getOrder_api()
+    setTimeout(() => {
+        orderStore.IsLaoding = false
+    }, 1000)
 })
 
 const Create = async () => {
-    try {
-        if (orderStore.data_res.OrderID == '' || orderStore.data_res.ProductID == '' || orderStore.data_res.Qty == '' || orderStore.data_res.Qty == '') {
-            alert("請給完整資料")
-        }
-        loading.value = true
-        await orderStore.createOrder_api()
-        await orderStore.getOrder_api()
-    } catch {
-        error.value = err.message
-        console.error('Error fetching orders:', err)
-    } finally {
-        setTimeout(() => {
-            loading.value = false
-        }, 1000)
-    }
+    await orderStore.createOrder_api()
+    setTimeout(() => {
+        orderStore.IsLaoding = false
+    }, 1000)
 }
 const Update = async () => {
-    try {
-        if (orderStore.data_res.OrderID == '' || orderStore.data_res.ProductID == '' || orderStore.data_res.Qty == '' || orderStore.data_res.Qty == '') {
-            alert("請給完整資料")
-        }
-        loading.value = true
-        await orderStore.updateOrder_api()
-        await orderStore.getOrder_api()
-    } catch (err) {
-        error.value = err.message
-        console.error('Error fetching orders:', err)
-    } finally {
-        setTimeout(() => {
-            loading.value = false
-        }, 1000)
-    }
+    await orderStore.updateOrder_api()
+    setTimeout(() => {
+        orderStore.IsLaoding = false
+    }, 1000)
+
 }
 const Del = async () => {
-    try {
-        if (orderStore.data_res.OrderID == '' || orderStore.data_res.ProductID == '') {
-            alert("請給完整資料")
-        }
-        loading.value = true
-        await orderStore.delOrder_api()
-        await orderStore.getOrder_api()
-    } catch (err) {
-        error.value = err.message
-        console.error('Error fetching orders:', err)
-    } finally {
-        setTimeout(() => {
-            loading.value = false
-        }, 1000)
-    }
+    await orderStore.delOrder_api()
+    setTimeout(() => {
+        loading.value = false
+    }, 1000)
 }
 
 </script>
@@ -96,8 +55,7 @@ const Del = async () => {
             </div>
         </div>
         <div class="">
-            <div v-if="loading">Loading...</div>
-            <div v-else-if="error">Error: {{ error }}</div>
+            <div v-if="orderStore.IsLaoding">Loading...</div>
             <div v-else-if="orderStore.data.length > 0">
                 <!-- Or display all orders -->
                 <div v-for="item in orderStore.data" :key="`${item.orderID}-${item.productID}`">
