@@ -23,18 +23,17 @@ const Update = async () => {
         orderStore.IsLaoding = false
     }, 1000)
 
-}
+}   
 const Del = async () => {
     await orderStore.delOrder_api()
     setTimeout(() => {
         loading.value = false
     }, 1000)
 }
-
 </script>
 
 <template>
-    <div class="container test">
+    <div class="">
         <div class="test1">
             <h3 class="fs-3">Order</h3>
             <div class=""><input type="text" placeholder="Type to search..."></div>
@@ -69,13 +68,6 @@ const Del = async () => {
 </template>
 
 <style scoped>
-.test {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-    margin: 20px 0 0 0;
-}
 
 .test1 {
     display: flex;

@@ -4,7 +4,17 @@ import Header from './Header.vue';
 
 <template>
     <Header></Header>
-    <router-view />
+    <div class="container">
+        <div class="page"><router-view /></div>
+    </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.page {
+    padding: 25px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+}
+</style>
