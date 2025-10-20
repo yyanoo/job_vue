@@ -36,8 +36,10 @@ const Del = async () => {
         <div class="">
             <div class="test1">
                 <div class=""><input type="text" placeholder="OrderID" v-model="order_store.data_res.OrderID"></div>
+
                 <div class=""><input type="text" placeholder="ProductID" id="product"
                         v-model="order_store.data_res.ProductID"></div>
+                        
                 <div class=""><input type="text" placeholder="Qty" id="qty" v-model="order_store.data_res.Qty"></div>
                 <div class=""><input type="text" placeholder="Discount" id="discount"
                         v-model="order_store.data_res.Discount"></div>

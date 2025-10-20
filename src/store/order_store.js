@@ -37,6 +37,8 @@ export const useOrderStore = defineStore('order', {
                 alert(req.message)
             } catch (e) {
                 console.error('Error fetching orders:', e)
+            } finally {
+                await getOrder_api()
             }
         },
 
@@ -50,6 +52,8 @@ export const useOrderStore = defineStore('order', {
                 alert(req.message)
             } catch (e) {
                 console.error('Error fetching orders:', e)
+            } finally {
+                await getOrder_api()
             }
         },
 
@@ -63,6 +67,8 @@ export const useOrderStore = defineStore('order', {
                 alert(req.message)
             } catch (e) {
                 console.error('Error fetching orders:', e)
+            } finally {
+                await getOrder_api()
             }
         },
     }
