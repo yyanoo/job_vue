@@ -20,6 +20,11 @@ const routes = [
     name: 'Product',
     component: () => import('../view/Product.vue')
   },
+  {
+    path: '/test',
+    name: 'Test',
+    component: () => import('../view/Test.vue')
+  },
 ]
 
 const router = createRouter({

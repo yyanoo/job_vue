@@ -1,10 +1,13 @@
 <script setup>
-import { useAppStore } from '../store/app_store';
-const app_store = useAppStore()
+const props = defineProps({
+    loading: Boolean
+})
 </script>
 
 <template>
-    <div v-if="app_store.IsLaoding">Loading...</div>
-</template>
+    <div v-if="loading">Loading...</div>
 
-<style scoped></style>
+    <div v-else>
+        <slot></slot>
+    </div>
+</template>

@@ -3,25 +3,27 @@ import { onMounted } from 'vue';
 import { useAppStore } from '../store/app_store';
 import { useOrderStore } from '../store/order_store';
 
+import Loading from '../components/Loading.vue'
+import Order_List from '../components/Order_List.vue';
+
 const app_store = useAppStore()
 const order_store = useOrderStore()
 
 onMounted(async () => {
     await order_store.getOrder_api()
-    app_store.Loading_end()
+    await app_store.Loading_end(1500)
 })
-
 const Create = async () => {
     await order_store.createOrder_api()
-    app_store.Loading_end()
+    await app_store.Loading_end(1500)
 }
 const Update = async () => {
     await order_store.updateOrder_api()
-    app_store.Loading_end()
+    await app_store.Loading_end(1500)
 }
 const Del = async () => {
     await order_store.delOrder_api()
-    app_store.Loading_end()
+    await app_store.Loading_end(3000)
 }
 </script>
 
@@ -47,15 +49,12 @@ const Del = async () => {
             </div>
         </div>
         <div class="">
-            <div v-if="order_store.IsLaoding">Loading...</div>
-            <div v-else-if="order_store.data.length > 0">
-                <!-- Or display all orders -->
-                <div v-for="item in order_store.data" :key="`${item.orderID}-${item.productID}`">
-                    <p>Order: {{ item.orderID }} | Product: {{ item.productID }} | Qty: {{ item.qty }} | Discount: {{
-                        item.discount }}%</p>
+            <Loading :loading="app_store.isLoading">
+                <div v-if="order_store.data.length > 0">
+                    <Order_List :data="order_store.data" />
                 </div>
-            </div>
-            <div v-else>No orders found</div>
+                <div v-else>No orders found</div>
+            </Loading>
         </div>
     </div>
 </template>

@@ -34,4 +34,10 @@
 .nav-item {
     margin: 0 5px;
 }
+
+@media screen and (max-width: 990px) {
+    .nav-item {
+        margin: 0 0 5px 20px;
+    }
+}
 </style>

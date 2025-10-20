@@ -13,7 +13,6 @@ import Header from './Header.vue';
 .page {
     padding: 25px 15px;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     flex-direction: column;
 }

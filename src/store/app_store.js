@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 export const useAppStore = defineStore('app', {
 
     state: () => ({
-        isLoading: false
+        isLoading: true,
+        check: false
     }),
 
     actions: {
@@ -13,10 +14,18 @@ export const useAppStore = defineStore('app', {
             )
         },
 
-        Loading_end() {
+        Loading_end(timer) {
             setTimeout(() => {
                 this.isLoading = false
-            }, 1000)
-        }
+            }, timer);
+        },
+
+        Check_haveData(o) {
+            if (Array.isArray(o) && o.length > 0) {
+                this.check = true
+            } else {
+                this.check = false
+            }
+        },
     }
 })
