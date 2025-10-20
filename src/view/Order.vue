@@ -1,34 +1,27 @@
 <script setup>
 import { onMounted } from 'vue';
+import { useAppStore } from '../store/app_store';
 import { useOrderStore } from '../store/order_store';
 
-const orderStore = useOrderStore()
+const app_store = useAppStore()
+const order_store = useOrderStore()
 
 onMounted(async () => {
-    await orderStore.getOrder_api()
-    setTimeout(() => {
-        orderStore.IsLaoding = false
-    }, 1000)
+    await order_store.getOrder_api()
+    app_store.Loading_end()
 })
 
 const Create = async () => {
-    await orderStore.createOrder_api()
-    setTimeout(() => {
-        orderStore.IsLaoding = false
-    }, 1000)
+    await order_store.createOrder_api()
+    app_store.Loading_end()
 }
 const Update = async () => {
-    await orderStore.updateOrder_api()
-    setTimeout(() => {
-        orderStore.IsLaoding = false
-    }, 1000)
-
-}   
+    await order_store.updateOrder_api()
+    app_store.Loading_end()
+}
 const Del = async () => {
-    await orderStore.delOrder_api()
-    setTimeout(() => {
-        loading.value = false
-    }, 1000)
+    await order_store.delOrder_api()
+    app_store.Loading_end()
 }
 </script>
 
@@ -40,12 +33,12 @@ const Del = async () => {
         </div>
         <div class="">
             <div class="test1">
-                <div class=""><input type="text" placeholder="OrderID" v-model="orderStore.data_res.OrderID"></div>
+                <div class=""><input type="text" placeholder="OrderID" v-model="order_store.data_res.OrderID"></div>
                 <div class=""><input type="text" placeholder="ProductID" id="product"
-                        v-model="orderStore.data_res.ProductID"></div>
-                <div class=""><input type="text" placeholder="Qty" id="qty" v-model="orderStore.data_res.Qty"></div>
+                        v-model="order_store.data_res.ProductID"></div>
+                <div class=""><input type="text" placeholder="Qty" id="qty" v-model="order_store.data_res.Qty"></div>
                 <div class=""><input type="text" placeholder="Discount" id="discount"
-                        v-model="orderStore.data_res.Discount"></div>
+                        v-model="order_store.data_res.Discount"></div>
             </div>
             <div class="test1">
                 <button @click="Create">Create</button>
@@ -54,10 +47,10 @@ const Del = async () => {
             </div>
         </div>
         <div class="">
-            <div v-if="orderStore.IsLaoding">Loading...</div>
-            <div v-else-if="orderStore.data.length > 0">
+            <div v-if="order_store.IsLaoding">Loading...</div>
+            <div v-else-if="order_store.data.length > 0">
                 <!-- Or display all orders -->
-                <div v-for="item in orderStore.data" :key="`${item.orderID}-${item.productID}`">
+                <div v-for="item in order_store.data" :key="`${item.orderID}-${item.productID}`">
                     <p>Order: {{ item.orderID }} | Product: {{ item.productID }} | Qty: {{ item.qty }} | Discount: {{
                         item.discount }}%</p>
                 </div>
@@ -68,7 +61,6 @@ const Del = async () => {
 </template>
 
 <style scoped>
-
 .test1 {
     display: flex;
     flex-direction: row;

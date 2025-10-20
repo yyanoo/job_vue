@@ -1,3 +1,18 @@
+<script setup>
+import { defineProps } from 'vue'
+
+const props = defineProps({
+  columns: {
+    type: Array,
+    required: true
+  },
+  data: {
+    type: Array,
+    default: () => []
+  },
+})
+</script>
+
 <template>
   <div>
     <table class="table table-striped">
@@ -17,20 +32,5 @@
     <div v-else-if="!data.length">No data available</div>
   </div>
 </template>
-
-<script setup>
-import { defineProps } from 'vue'
-
-const props = defineProps({
-  columns: {
-    type: Array,
-    required: true
-  },
-  data: {
-    type: Array,
-    default: () => []
-  },
-})
-</script>
 
 <style scoped></style>

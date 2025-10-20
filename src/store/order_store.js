@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
+import { useAppStore } from './app_store'
 import { getOrder, createOrder, updateOrder, delOrder } from '../service/orders_api'
+
+const app_store = useAppStore()
 
 export const useOrderStore = defineStore('order', {
 
@@ -11,19 +14,12 @@ export const useOrderStore = defineStore('order', {
             Qty: '',
             Discount: ''
         },
-        IsLaoding: false
     }),
 
     actions: {
-        cleanEmptyToNull(obj) {
-            return Object.fromEntries(
-                Object.entries(obj).map(([key, value]) => [key, value === '' ? null : value])
-            )
-        },
-
         async getOrder_api() {
             try {
-                this.IsLaoding = true
+                app_store.isLoading = true
                 const data = await getOrder()
                 this.data = data.data
             } catch (e) {
@@ -36,7 +32,7 @@ export const useOrderStore = defineStore('order', {
                 return alert("請給完整資料")
             }
             try {
-                const cleanData = this.cleanEmptyToNull(this.data_res)
+                const cleanData = app_store.cleanEmptyToNull(this.data_res)
                 const req = await createOrder(cleanData)
                 alert(req.message)
             } catch (e) {
@@ -49,7 +45,7 @@ export const useOrderStore = defineStore('order', {
                 return alert("請給完整資料")
             }
             try {
-                const cleanData = this.cleanEmptyToNull(this.data_res)
+                const cleanData = app_store.cleanEmptyToNull(this.data_res)
                 const req = await updateOrder(cleanData)
                 alert(req.message)
             } catch (e) {
@@ -62,7 +58,7 @@ export const useOrderStore = defineStore('order', {
                 return alert("請給完整資料")
             }
             try {
-                const cleanData = this.cleanEmptyToNull(this.data_res)
+                const cleanData = app_store.cleanEmptyToNull(this.data_res)
                 const req = await delOrder(cleanData)
                 alert(req.message)
             } catch (e) {

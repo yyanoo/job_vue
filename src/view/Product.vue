@@ -1,10 +1,15 @@
 <script setup>
-import TableList from "../components/Table_List.vue"
+import { onMounted } from 'vue';
+import { getProduct } from '../service/product_api';
+
+onMounted(async () => {
+    const data = await getProduct()
+    console.log(data)
+})
 </script>
 
 <template>
-    <TableList></TableList>
-</template>
 
+</template>
 
 <style scoped></style>
