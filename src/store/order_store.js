@@ -20,6 +20,14 @@ export const useOrderStore = defineStore('order', {
     }),
 
     actions: {
+        data_reset() {
+            this.data_res = {
+                OrderID: '',
+                ProductID: '',
+                Qty: '',
+                Discount: '',
+            }
+        },
         async getOrder_api() {
             try {
                 app_store.isLoading = true
@@ -27,6 +35,8 @@ export const useOrderStore = defineStore('order', {
                 this.data = data.data
             } catch (e) {
                 console.error('Error fetching orders:', e)
+            } finally {
+                this.data_reset()
             }
         },
 
@@ -37,6 +47,8 @@ export const useOrderStore = defineStore('order', {
                 this.data = req.data
             } catch (e) {
                 console.error('Error fetching orders:', e)
+            } finally {
+                this.data_reset()
             }
         },
 
@@ -63,6 +75,7 @@ export const useOrderStore = defineStore('order', {
             try {
                 //送出前清理 不必要值等等
                 const cleanData = app_store.cleanEmptyToNull(this.data_res)
+                console.log(cleanData)
                 const req = await updateOrder(cleanData)
                 alert(req.message)
             } catch (e) {

@@ -29,6 +29,7 @@ const Update_Props = async (item) => {
     Qty: res_qty.value,
     Discount: res_discount.value
   }
+  
   res_qty.value = 0
   res_discount.value = 0
 
