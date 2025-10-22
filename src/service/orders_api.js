@@ -5,6 +5,17 @@ export async function getOrder() {
     return res.json();
 }
 
+export async function getOrder_page(data) {
+    const res = await fetch(`${base_url}get_page`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    return res.json();
+}
+
 export async function createOrder(data) {
     const res = await fetch(`${base_url}create`, {
         method: "POST",

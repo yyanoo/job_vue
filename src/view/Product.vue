@@ -25,7 +25,6 @@ onMounted(async () => {
 
 <template>
     <Loading :loading="app_store.isLoading">
-        
     </Loading>
 </template>
 

@@ -27,9 +27,9 @@ watch(num, (newVal) => {
 
 <template>
     <div class="test0">
-        <button @click="min_num">-</button>
+        <button class="btn btn-primary" @click="min_num" style="margin-right: 10px;">-</button>
         <input type="number" min="0" v-model="num">
-        <button @click="add_num">+</button>
+        <button class="btn btn-primary" @click="add_num" style="margin-left: 10px;">+</button>
     </div>
 </template>
 

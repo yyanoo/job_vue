@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { useAppStore } from '../store/app_store';
 import { useOrderStore } from '../store/order_store';
 
+import Change_page from '../components/Change_page.vue';
 import Loading from '../components/Loading.vue'
 import Order_List from '../components/Order_List.vue';
 
@@ -13,6 +14,12 @@ onMounted(async () => {
     await order_store.getOrder_api()
     await app_store.Loading_end(1500)
 })
+
+const GetPage = async () => {
+    await order_store.getPageOrder_api()
+    await app_store.Loading_end(1500)
+}
+
 const Create = async () => {
     await order_store.createOrder_api()
     await app_store.Loading_end(1500)
@@ -23,7 +30,7 @@ const Update = async () => {
 }
 const Del = async () => {
     await order_store.delOrder_api()
-    await app_store.Loading_end(3000)
+    await app_store.Loading_end(1500)
 }
 </script>
 
@@ -31,7 +38,6 @@ const Del = async () => {
     <div class="">
         <div class="test1">
             <h3 class="fs-3">Order</h3>
-            <div class=""><input type="text" placeholder="Type to search..."></div>
         </div>
         <div class="">
             <div class="test1">
@@ -56,10 +62,21 @@ const Del = async () => {
                 <div v-else>No orders found</div>
             </Loading>
         </div>
+        <div class="">
+            <div class="test0" style="margin-bottom: 10px;">
+                <Change_page />
+            </div>
+            <div class="test0"><button class="btn btn-primary" @click="GetPage">送出</button></div>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.test0 {
+    display: flex;
+    justify-content: center;
+}
+
 .test1 {
     display: flex;
     flex-direction: row;

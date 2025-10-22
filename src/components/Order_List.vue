@@ -94,16 +94,16 @@ const Del_Props = async (item) => {
                   </div>
                 </div>
                 <div class="d-flex">
-                  <p>ProductID: {{ item.productID }}</p>
-                  <p>Qty: {{ item.qty }}</p>
-                  <p>Discount: {{ item.discount }}</p>
+                  <p>ProductID : {{ item.productID }}</p>
+                  <p>Qty : {{ item.qty }}</p>
+                  <p>Discount : {{ item.discount }}</p>
                 </div>
 
                 <div class="" style="margin-bottom: 20px;">
-                  <div class="d-flex"> Qty: <input type="text" placeholder="Qty"
+                  <div class="d-flex">Qty : <input type="text" placeholder="Qty"
                       style="margin-bottom: 10px; margin-left: 15px; width: 300px;" v-model="res_qty">
                   </div>
-                  <div class="d-flex"> Discount: <input type="text" placeholder="Discount"
+                  <div class="d-flex">Discount : <input type="text" placeholder="Discount"
                       style="margin-left: 15px; width: 300px;" v-model="res_discount">
                   </div>
                 </div>

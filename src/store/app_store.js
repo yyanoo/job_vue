@@ -4,7 +4,13 @@ export const useAppStore = defineStore('app', {
 
     state: () => ({
         isLoading: true,
-        check: false
+        check: false,
+
+        //res 資料到後端 來拿頁面資料
+        page: {
+            Page: 1,
+            Page_size: 4,
+        }
     }),
 
     actions: {
@@ -27,5 +33,6 @@ export const useAppStore = defineStore('app', {
                 this.check = false
             }
         },
+
     }
 })
