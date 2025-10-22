@@ -39,7 +39,7 @@ const Del = async () => {
 
                 <div class=""><input type="text" placeholder="ProductID" id="product"
                         v-model="order_store.data_res.ProductID"></div>
-                        
+
                 <div class=""><input type="text" placeholder="Qty" id="qty" v-model="order_store.data_res.Qty"></div>
                 <div class=""><input type="text" placeholder="Discount" id="discount"
                         v-model="order_store.data_res.Discount"></div>
@@ -53,7 +53,7 @@ const Del = async () => {
         <div class="">
             <Loading :loading="app_store.isLoading">
                 <div v-if="order_store.data.length > 0">
-                    <Order_List :data="order_store.data" />
+                    <Order_List :data="order_store.data" :on-update="Update" :on-delete="Del" />
                 </div>
                 <div v-else>No orders found</div>
             </Loading>
