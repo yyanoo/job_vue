@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 import { useOrderStore } from '../store/order_store'
 
 const order_store = useOrderStore()
@@ -59,13 +59,14 @@ const Del_Props = async (item) => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in data" :key="item.productID">
+      <tr v-for="item in data" :key="`${item.orderID}-${item.productID}`">
         <td>{{ item.orderID }}</td>
         <td>{{ item.productID }}</td>
         <td>{{ item.qty }}</td>
         <td>{{ item.discount }}</td>
         <td>
-          <button class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="`#modal-${item.productID}`">
+          <button class="btn btn-primary" data-bs-toggle="modal"
+            :data-bs-target="`#modal-${item.orderID}-${item.productID}`">
             編輯
           </button>
         </td>
@@ -75,16 +76,16 @@ const Del_Props = async (item) => {
 
   <!-- Modal -->
   <div class="container">
-    <div v-for="item in data" :key="item.productID">
-      <div class="modal fade" :id="'modal-' + item.productID" tabindex="-1"
-        :aria-labelledby="'label-modal-' + item.productID">
+    <div v-for="item in data" :key="`${item.orderID}-${item.productID}`">
+      <div class="modal fade" :id="`modal-${item.orderID}-${item.productID}`" tabindex="-1"
+        :aria-labelledby="`label-modal-${item.orderID}-${item.productID}`">
         <div class="modal-dialog">
           <div class="modal-content" style="transform: translateY(150px);">
             <div class="container">
               <div class="text-content">
                 <div class="Title">
                   <h3>OrderID : {{ item.orderID }}</h3>
-                  <div class="button_close" data-bs-dismiss="modal">
+                  <div class="button_close" data-bs-dismiss="modal" style="transform: translateY(-10px);">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-x"
                       viewBox="0 0 16 16">
                       <path
@@ -128,9 +129,8 @@ const Del_Props = async (item) => {
 
 .Title {
   margin: 20px 0;
-
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 </style>

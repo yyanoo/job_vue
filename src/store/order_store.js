@@ -22,7 +22,6 @@ export const useOrderStore = defineStore('order', {
                 app_store.isLoading = true
                 const data = await getOrder()
                 this.data = data.data
-                console.log(this.data)
             } catch (e) {
                 console.error('Error fetching orders:', e)
             }

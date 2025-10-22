@@ -44,13 +44,11 @@ const Del = async () => {
                 <div class=""><input type="text" placeholder="Discount" id="discount"
                         v-model="order_store.data_res.Discount"></div>
             </div>
-            <div class="test1">
-                <button @click="Create">Create</button>
-                <button @click="Update">Update</button>
-                <button @click="Del">Del</button>
+            <div>
+                <button @click="Create" class="btn btn-primary">Create</button>
             </div>
         </div>
-        <div class="">
+        <div class="" style="margin-bottom: 10px;">
             <Loading :loading="app_store.isLoading">
                 <div v-if="order_store.data.length > 0">
                     <Order_List :data="order_store.data" :on-update="Update" :on-delete="Del" />
