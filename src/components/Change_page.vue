@@ -23,8 +23,8 @@ const min_num = () => {
 const min_num_5 = () => {
     if (num.value > 1) {
         num.value = Math.max(num.value - 5, 1)
-    } else {
-        num.value = 1
+    } else if (num.value === 1) {
+        return
     }
     use_app.page.Page = num.value
     props.onPage()
@@ -41,10 +41,11 @@ const add_num = () => {
 }
 
 const add_num_5 = () => {
-    if ((num.value += 5) > (use_app.max_pages - 1)) {
+    if (num.value == use_app.max_pages) {
+        alert('已載入所以資料')
+    } else if ((num.value += 5) > (use_app.max_pages - 1)) {
         use_app.page.Page = use_app.max_pages
         props.onPage()
-        alert('已載入所以資料')
     } else {
         num.value += 5
         use_app.page.Page = num.value
