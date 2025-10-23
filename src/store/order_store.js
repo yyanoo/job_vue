@@ -31,7 +31,7 @@ export const useOrderStore = defineStore('order', {
         async getOrder_api() {
             try {
                 app_store.isLoading = true
-                const req = await getOrder()
+                const req = await getOrder_page(app_store.page)
                 this.data = req.data
                 app_store.req_page = req.page
             } catch (e) {
