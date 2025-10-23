@@ -27,17 +27,18 @@ export const useOrderStore = defineStore('order', {
                 Discount: '',
             }
         },
-        
+
         async getOrder_api() {
             try {
                 app_store.isLoading = true
-                const data = await getOrder()
-                this.data = data.data
+                const req = await getOrder()
+                this.data = req.data
+                app_store.req_page = req.page
             } catch (e) {
                 console.error('Error fetching orders:', e)
             } finally {
                 this.data_reset()
-                console.log(this.data)
+                await app_store.Check_Max_page()
             }
         },
 

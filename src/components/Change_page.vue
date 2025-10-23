@@ -5,41 +5,66 @@ import { useAppStore } from '../store/app_store'
 const use_app = useAppStore()
 const num = ref(1)
 
+const props = defineProps({
+    onPage: {
+        type: Function,
+        default: null
+    }
+})
+
 const min_num = () => {
     if (num.value > 1) {
-        num.value -= 1
+        num.value = Math.max(num.value - 1, 1)
         use_app.page.Page = num.value
+        props.onPage()
     }
 }
 
 const min_num_5 = () => {
-    if (num.value > 5) {
-        num.value -= 5
-        use_app.page.Page = num.value
+    if (num.value > 1) {
+        num.value = Math.max(num.value - 5, 1)
+    } else {
+        num.value = 1
     }
+    use_app.page.Page = num.value
+    props.onPage()
 }
 
 const add_num = () => {
-    num.value += 1
-    use_app.page.Page = num.value
+    if (num.value == use_app.max_pages) {
+        alert('已載入所以資料')
+    } else {
+        num.value += 1
+        use_app.page.Page = num.value
+        props.onPage()
+    }
 }
 
 const add_num_5 = () => {
-    num.value += 5
-    use_app.page.Page = num.value
+    if ((num.value += 5) > (use_app.max_pages - 1)) {
+        use_app.page.Page = use_app.max_pages
+        props.onPage()
+        alert('已載入所以資料')
+    } else {
+        num.value += 5
+        use_app.page.Page = num.value
+        props.onPage()
+    }
 }
 
 watch(num, (newVal) => {
     if (newVal < 1) {
         num.value = 1
     }
+    if (newVal > use_app.max_pages) {
+        if (num.value !== use_app.max_pages) num.value = use_app.max_pages
+    }
     use_app.page.Page = num.value
-    console.log(`指定一頁 = ${use_app.page.Page}`)
 })
 </script>
 
 <template>
-    <div class="test0">
+    <div class="d-flex">
         <button class="btn btn-primary" @click="min_num_5" style="margin-right: 10px;">-5</button>
         <button class="btn btn-primary" @click="min_num" style="margin-right: 10px;">-</button>
         <input type="number" min="0" v-model="num">
@@ -48,8 +73,4 @@ watch(num, (newVal) => {
     </div>
 </template>
 
-<style scoped>
-.test0 {
-    display: flex;
-}
-</style>
+<style scoped></style>

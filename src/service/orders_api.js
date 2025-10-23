@@ -5,6 +5,11 @@ export async function getOrder() {
     return res.json();
 }
 
+export async function getOrder_pageNum() {
+    const res = await fetch(`${base_url}get_pageNum`)
+    return res.json();
+}
+
 export async function getOrder_page(data) {
     const res = await fetch(`${base_url}get_page`, {
         method: "POST",
