@@ -45,8 +45,12 @@ const Del_Props = async (item) => {
   await props.onDelete()
 }
 
-
 const currentItem = ref(null)
+const open = (item) => {
+  currentItem.value = item
+}
+
+defineExpose({ open })
 </script>
 
 <template>
@@ -94,16 +98,3 @@ const currentItem = ref(null)
     </div>
   </div>
 </template>
-
-<style scoped>
-.d-flex {
-  justify-content: space-between
-}
-
-.Title {
-  margin: 20px 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-</style>

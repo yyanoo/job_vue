@@ -1,30 +1,41 @@
 <script setup>
+import { ref } from 'vue'
+
+const num = ref(0)
+
+let data = []
+
+const getApi = async () => {
+    const res = await fetch(`https://backend-33mc.onrender.com/cards`)
+    ///將 req 存入 data
+    data = await res.json();
+    console.log(data)
+}
+
+const getLenght = () => {
+    //顯示 data arr 裏面的值
+    console.log(data[num.value])
+}
+
+const getName = () => {
+    //顯示 data arr .name的名字
+    console.log(data[num.value].name)
+}
+
 </script>
 
 <template>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Launch static backdrop modal
-    </button>
+    <div class=""><button @click="getApi">Test Click</button></div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                </div>
-            </div>
-        </div>
+    <div class="">
+        <button @click="getLenght">Check data arr</button>
+        <input type="number" placeholder="輸入 要找的 arr num" name="" id="" v-model="num">
+    </div>
+
+    <div class="">
+        <button @click="getName">Get Name arr</button>
+        <input type="number" placeholder="輸入 要找的 arr num" name="" id="" v-model="num">
     </div>
 </template>
+
 <style scoped></style>
