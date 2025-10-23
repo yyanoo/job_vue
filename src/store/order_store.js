@@ -9,7 +9,6 @@ export const useOrderStore = defineStore('order', {
     state: () => ({
         //存取req 的後端資料
         data: {},
-
         //res 給後端的資料
         data_res: {
             OrderID: '',
@@ -37,6 +36,7 @@ export const useOrderStore = defineStore('order', {
                 console.error('Error fetching orders:', e)
             } finally {
                 this.data_reset()
+                console.log(this.data)
             }
         },
 

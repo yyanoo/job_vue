@@ -1,40 +1,59 @@
-<script setup>
-import { ref, watch } from 'vue';
-import { useAppStore } from '../store/app_store'
-
-const use_app = useAppStore()
-const num = ref(1)
-
-const min_num = () => {
-    if (num.value > 1) {
-        num.value -= 1
-        use_app.page.Page = num.value
-    }
-}
-
-const add_num = () => {
-    num.value += 1
-    use_app.page.Page = num.value
-}
-
-watch(num, (newVal) => {
-    if (newVal < 1) {
-        num.value = 1
-    }
-    use_app.page.Page = num.value
-})
-</script>
-
+<!-- ParentComponent.vue -->
 <template>
-    <div class="test0">
-        <button @click="min_num">-</button>
-        <input type="number" min="0" v-model="num">
-        <button @click="add_num">+</button>
+  <div class="container">
+    <!-- 資料列表 -->
+    <div v-for="item in data" :key="`${item.orderID}-${item.productID}`">
+      <button 
+        class="btn btn-info" 
+        @click="openModal(item)"
+        data-bs-toggle="modal" 
+        data-bs-target="#orderModal">
+        View Order {{ item.orderID }}
+      </button>
     </div>
+
+    <!-- 只有一個 Modal 實例 -->
+    <OrderModal 
+      ref="modalRef"
+      @update="handleUpdate" 
+      @delete="handleDelete" 
+    />
+  </div>
 </template>
 
-<style scoped>
-.test0 {
-    display: flex;
+<script setup>
+import { ref } from 'vue'
+import OrderModal from './OrderModal.vue'
+
+const data = ref([
+  { orderID: 1, productID: 101, qty: 5, discount: 10 },
+  { orderID: 2, productID: 102, qty: 3, discount: 15 },
+  { orderID: 3, productID: 103, qty: 8, discount: 5 },
+  // ... 更多資料
+])
+
+const modalRef = ref(null)
+
+const openModal = (item) => {
+  modalRef.value?.open(item)
 }
-</style>
+
+const handleUpdate = (updatedItem) => {
+  const index = data.value.findIndex(
+    item => item.orderID === updatedItem.orderID && 
+            item.productID === updatedItem.productID
+  )
+  if (index !== -1) {
+    data.value[index] = { ...data.value[index], ...updatedItem }
+  }
+  console.log('Updated:', updatedItem)
+}
+
+const handleDelete = (deletedItem) => {
+  data.value = data.value.filter(
+    item => !(item.orderID === deletedItem.orderID && 
+              item.productID === deletedItem.productID)
+  )
+  console.log('Deleted:', deletedItem)
+}
+</script>
