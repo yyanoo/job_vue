@@ -12,25 +12,27 @@ const order_store = useOrderStore()
 
 onMounted(async () => {
     await order_store.getOrder_api()
-    await app_store.Loading_end(1500)
+    await app_store.Loading_end(500)
 })
 
 const GetPage = async () => {
     await order_store.getPageOrder_api()
-    await app_store.Loading_end(1500)
+    await app_store.Loading_end(500)
 }
 
 const Create = async () => {
     await order_store.createOrder_api()
-    await app_store.Loading_end(1500)
+    await app_store.Loading_end(500)
 }
+
 const Update = async () => {
     await order_store.updateOrder_api()
-    await app_store.Loading_end(1500)
+    await app_store.Loading_end(500)
 }
+
 const Del = async () => {
     await order_store.delOrder_api()
-    await app_store.Loading_end(1500)
+    await app_store.Loading_end(500)
 }
 </script>
 
@@ -54,6 +56,15 @@ const Del = async () => {
                 <button @click="Create" class="btn btn-primary">Create</button>
             </div>
         </div>
+
+        <div class="">
+            <div class="test0" style="margin-bottom: 10px;">
+                <Change_page />
+            </div>
+            <!-- 送出需要查詢的頁面 到後端 -->
+            <div class="test0"><button class="btn btn-primary" @click="GetPage">送出</button></div>
+        </div>
+
         <div class="" style="margin-bottom: 10px;">
             <Loading :loading="app_store.isLoading">
                 <div v-if="order_store.data.length > 0">
@@ -61,12 +72,6 @@ const Del = async () => {
                 </div>
                 <div v-else>No orders found</div>
             </Loading>
-        </div>
-        <div class="">
-            <div class="test0" style="margin-bottom: 10px;">
-                <Change_page />
-            </div>
-            <div class="test0"><button class="btn btn-primary" @click="GetPage">送出</button></div>
         </div>
     </div>
 </template>

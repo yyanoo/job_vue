@@ -22,6 +22,7 @@ watch(num, (newVal) => {
         num.value = 1
     }
     use_app.page.Page = num.value
+    console.log(`指定一頁 = ${use_app.page.Page}`)
 })
 </script>
 
