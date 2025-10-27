@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { getOrder } from '../service/orders_api';
 
 export const useAppStore = defineStore('app', {
 
@@ -11,7 +12,11 @@ export const useAppStore = defineStore('app', {
             Page: 1,
             Page_size: 4,
         },
-        max_pages: 0,
+        pages: {
+            max: 0,
+            start: 1,
+            end: 2,
+        },
         req_page: {},
     }),
 
@@ -35,11 +40,18 @@ export const useAppStore = defineStore('app', {
                 this.check = false
             }
         },
+
         Check_Max_page() {
             const Max = this.req_page
             const size = this.page.Page_size
             let total = Math.ceil(Max / size)
             this.max_pages = total
+        },
+
+        async Get_Page_order() {
+            const data = await getOrder()
+            this.req_page = data.page
+            this.Check_Max_page()
         }
     }
 })

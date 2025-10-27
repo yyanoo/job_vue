@@ -3,7 +3,7 @@ import { onMounted } from 'vue';
 import { useAppStore } from '../store/app_store';
 import { useOrderStore } from '../store/order_store';
 
-import Change_page from '../components/Change_page.vue';
+import Change_page from '../components/Change_page/Change_page.vue';
 import Loading from '../components/Loading.vue'
 import Order_List from '../components/Order_List.vue';
 import Create_Order_Model from '../components/Create_Order_Model.vue';

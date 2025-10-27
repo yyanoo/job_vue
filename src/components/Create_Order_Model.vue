@@ -53,7 +53,8 @@ const New_Order = async () => {
                 <!-- Modal Button -->
                 <div class="modal-footer d-flex justify-content-between">
                     <!-- <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Add Product</button> -->
-                    <button type="button" class="btn btn-primary" @click="New_Order" data-bs-dismiss="modal">Create</button>
+                    <button type="button" class="btn btn-primary" @click="New_Order"
+                        data-bs-dismiss="modal">Create</button>
                 </div>
             </div>
         </div>

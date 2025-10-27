@@ -1,81 +1,72 @@
 <script setup>
-import { useOrderStore } from '../store/order_store';
+import { ref, computed } from 'vue'
+import Change_page_bar from '../components/Change_page/Change_page_bar.vue'
 
-const order_store = useOrderStore()
+// 模擬數據
+const totalPages = 100
+const currentPage = ref(1)
+const maxVisible = 10 // 每次顯示幾個按鈕
 
+// 計算顯示的頁碼範圍
+const visiblePages = computed(() => {
+    const half = Math.floor(maxVisible / 2)
+    let start = currentPage.value - half
+    let end = currentPage.value + half - 1
+
+    // 避免超出邊界
+    if (start < 1) {
+        start = 1
+        end = maxVisible
+    }
+    if (end > totalPages) {
+        end = totalPages
+        start = totalPages - maxVisible + 1
+    }
+
+    if (start < 1) start = 1 // 再保險一次
+
+    // 回傳要顯示的頁碼
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i)
+})
+
+// 切換頁面
+const changePage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+        currentPage.value = page
+    }
+}
 </script>
 
 <template>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createOrder">
-        Create New Order
-    </button>
+    <div class="pagination">
+        <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
 
-    <!-- Modal -->
-    <div class="modal fade" id="createOrder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="createOrderLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style="transform: translateY(150px);">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="createOrderLabel">OrderID :</h1>
-                    <input type="text" placeholder="OrderID" v-model="order_store.data_res.OrderID">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex">
-                        <div class="box">
-                            <div class="">ProductID :</div>
-                            <input type="text" placeholder="ProductID" id="product"
-                                v-model="order_store.data_res.ProductID">
-                        </div>
-                        <div class="box">
-                            <div class="">Qty :</div>
-                            <input type="text" class="input-box" id="qty" v-model="order_store.data_res.Qty">
-                            <div class="">Discount :</div>
-                            <input type="text" class="input-box" id="discount" v-model="order_store.data_res.Discount">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <!-- <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Add Product</button> -->
-                    <button type="button" class="btn btn-primary">Create</button>
-                </div>
-            </div>
-        </div>
+        <button v-for="page in visiblePages" :key="page" :class="{ active: page === currentPage }"
+            @click="changePage(page)">
+            {{ page }}
+        </button>
+
+        <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
     </div>
+
+    <p>目前頁面：{{ currentPage }}</p>
+
+    <Change_page_bar />
 </template>
 
 <style scoped>
-input {
-    margin: 0 10px;
-}
-
-.input-box {
-    width: 45px;
-}
-
-.box {
+.pagination {
     display: flex;
-    justify-content: space-between;
+    gap: 6px;
 }
 
-.box-out {
-    display: flex;
-    width: 20px;
+button {
+    padding: 4px 8px;
 }
 
-.modal {
-    --bs-modal-width: 700px;
-}
-
-
-@media screen and (max-width: 576px) {
-    .d-flex {
-        flex-direction: column;
-    }
-
-    .box {
-        margin-top: 20px;
-    }
+button.active {
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
 }
 </style>
