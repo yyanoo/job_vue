@@ -153,6 +153,7 @@ const Del_Props = async () => {
       </div>
     </div>
   </div>
+  
 </template>
 
 <style scoped>

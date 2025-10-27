@@ -57,13 +57,6 @@ const Del = async () => {
             </div>
         </div>
 
-        <div class="">
-            <div class="test0" style="margin-bottom: 10px;">
-                <Change_page :on-page="GetPage" />
-            </div>
-            <!-- 送出需要查詢的頁面 到後端 -->
-            <div class="test0"><button class="btn btn-primary" @click="GetPage">送出</button></div>
-        </div>
 
         <div class="" style="margin-bottom: 10px;">
             <Loading :loading="app_store.isLoading">
@@ -72,6 +65,15 @@ const Del = async () => {
                 </div>
                 <div v-else>No orders found</div>
             </Loading>
+        </div>
+
+
+        <div class="">
+            <div class="test0" style="margin-bottom: 10px;">
+                <Change_page :on-page="GetPage" />
+            </div>
+            <!-- 送出需要查詢的頁面 到後端 -->
+            <div class="test0"><button class="btn btn-primary" @click="GetPage">送出</button></div>
         </div>
     </div>
 </template>
