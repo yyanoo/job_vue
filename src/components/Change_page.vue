@@ -69,6 +69,7 @@ watch(num, (newVal) => {
 
 <template>
     <div class="d-flex">
+        <!-- 往後 x頁 -->
         <button class="btn btn-primary" @click="min_num_5" style="margin-right: 10px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-chevron-double-left" viewBox="0 0 16 16">
@@ -85,7 +86,14 @@ watch(num, (newVal) => {
                     d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
             </svg>
         </button>
-        <input type="number" min="0" v-model="num">
+        
+        <!-- 換頁 Input -->
+        <div class="d-flex align-items-center">
+            <input style="width: 50px;" type="number" min="0" v-model="num">
+            <div class="" style="margin-left: 10px;">{{ `/${use_app.max_pages}頁` }}</div>
+        </div>
+
+        <!-- 往前 x頁 -->
         <button class="btn btn-primary" @click="add_num" style="margin-left: 10px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -94,6 +102,7 @@ watch(num, (newVal) => {
             </svg>
         </button>
         <button class="btn btn-primary" @click="add_num_5" style="margin-left: 10px;">
+            5
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -101,7 +110,7 @@ watch(num, (newVal) => {
                 <path fill-rule="evenodd"
                     d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708" />
             </svg>
-            5</button>
+        </button>
     </div>
 </template>
 

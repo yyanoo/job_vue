@@ -3,6 +3,18 @@ import { useOrderStore } from '../store/order_store';
 
 const order_store = useOrderStore()
 
+const props = defineProps({
+    onCreate: {
+        type: Function,
+        default: null
+    },
+})
+
+const New_Order = async () => {
+    if (props.onCreate) {
+        await props.onCreate()
+    }
+}
 </script>
 
 <template>
@@ -15,12 +27,14 @@ const order_store = useOrderStore()
     <div class="modal fade" id="createOrder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="createOrderLabel" aria-hidden="true">
         <div class="modal-dialog">
+            <!-- Model Header -->
             <div class="modal-content" style="transform: translateY(150px);">
-                <div class="modal-header">
+                <div class="modal-header" style="margin-top: 10px; margin-bottom: 10px;">
                     <h1 class="modal-title fs-5" id="createOrderLabel">OrderID :</h1>
                     <input type="text" placeholder="OrderID" v-model="order_store.data_res.OrderID">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="d-flex">
                         <div class="box">
@@ -36,9 +50,10 @@ const order_store = useOrderStore()
                         </div>
                     </div>
                 </div>
+                <!-- Modal Button -->
                 <div class="modal-footer d-flex justify-content-between">
                     <!-- <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Add Product</button> -->
-                    <button type="button" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-primary" @click="New_Order" data-bs-dismiss="modal">Create</button>
                 </div>
             </div>
         </div>

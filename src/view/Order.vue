@@ -6,6 +6,7 @@ import { useOrderStore } from '../store/order_store';
 import Change_page from '../components/Change_page.vue';
 import Loading from '../components/Loading.vue'
 import Order_List from '../components/Order_List.vue';
+import Create_Order_Model from '../components/Create_Order_Model.vue';
 
 const app_store = useAppStore()
 const order_store = useOrderStore()
@@ -37,28 +38,13 @@ const Del = async () => {
 </script>
 
 <template>
-    <div class="">
+    <div class="container">
         <div class="test1">
             <h3 class="fs-3">Order</h3>
+            <Create_Order_Model :on-create="Create" />
+
         </div>
-        <div class="">
-            <div class="test1">
-                <div class=""><input type="text" placeholder="OrderID" v-model="order_store.data_res.OrderID"></div>
-
-                <div class=""><input type="text" placeholder="ProductID" id="product"
-                        v-model="order_store.data_res.ProductID"></div>
-
-                <div class=""><input type="text" placeholder="Qty" id="qty" v-model="order_store.data_res.Qty"></div>
-                <div class=""><input type="text" placeholder="Discount" id="discount"
-                        v-model="order_store.data_res.Discount"></div>
-            </div>
-            <div>
-                <button @click="Create" class="btn btn-primary">Create</button>
-            </div>
-        </div>
-
-
-        <div class="" style="margin-bottom: 10px;">
+        <div class="test2" style="margin-bottom: 10px;height: 500px;">
             <Loading :loading="app_store.isLoading">
                 <div v-if="order_store.data.length > 0">
                     <Order_List :data="order_store.data" :on-update="Update" :on-delete="Del" />
@@ -66,8 +52,6 @@ const Del = async () => {
                 <div v-else>No orders found</div>
             </Loading>
         </div>
-
-
         <div class="">
             <div class="test0" style="margin-bottom: 10px;">
                 <Change_page :on-page="GetPage" />
@@ -87,6 +71,8 @@ const Del = async () => {
 .test1 {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     margin: 0 0 10px 0;
 }
 
@@ -99,6 +85,11 @@ const Del = async () => {
         display: flex;
         flex-direction: column;
         margin: 0 0 10px 0;
+    }
+
+    .test2 {
+        display: flex;
+        justify-content: center;
     }
 }
 </style>
