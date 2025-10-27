@@ -1,11 +1,10 @@
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useAppStore } from '../../store/app_store'
 
-
 export const usePagination = () => {
-
-    const num = ref(1)
+    //一般 頁面切換
     const use_app = useAppStore()
+    const num = ref(1)
 
     watch(num, (newVal) => {
         if (newVal < 1) {
@@ -37,38 +36,11 @@ export const usePagination = () => {
         use_app.page.Page = num.value
     }
 
-    const pageRange = computed(() => {
-        const maxVisible = 5
-        const currentPage = num.value
-        const totalPages = use_app.pages.max || 1
-
-        const half = Math.floor(maxVisible / 2)
-        let start = currentPage - half
-        let end = currentPage + half
-
-        if (start < 1) {
-            start = 1
-            end = maxVisible
-        }
-        if (end > totalPages) {
-            end = totalPages
-            start = totalPages - maxVisible + 1
-        }
-        if (start < 1) start = 1
-
-        use_app.pages.start = start
-        use_app.pages.end = end
-
-        return { start, end, current: currentPage }
-    })
-
-
     return {
         num,
         min_num,
         min_num_5,
         add_num,
         add_num_5,
-        pageRange
     }
 }

@@ -4,6 +4,7 @@ import { useAppStore } from '../store/app_store';
 import { useOrderStore } from '../store/order_store';
 
 import Change_page from '../components/Change_page/Change_page.vue';
+import Change_page_bar from '../components/Change_page/Change_page_bar.vue';
 import Loading from '../components/Loading.vue'
 import Order_List from '../components/Order_List.vue';
 import Create_Order_Model from '../components/Create_Order_Model.vue';
@@ -54,6 +55,7 @@ const Del = async () => {
         </div>
         <div class="">
             <div class="test0" style="margin-bottom: 10px;">
+                <Change_page_bar :on-pagebar="GetPage" style="margin-bottom: 10px;"/>
                 <Change_page :on-page="GetPage" />
             </div>
             <!-- 送出需要查詢的頁面 到後端 -->
@@ -65,7 +67,8 @@ const Del = async () => {
 <style scoped>
 .test0 {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .test1 {

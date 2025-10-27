@@ -1,15 +1,17 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useAppStore } from '../../store/app_store'
+import { usePagination } from './ChangePage';
 
 const use_app = useAppStore()
+const { num } = usePagination()
 
-// 目前頁數
-const currentPage = ref(1)
-// 最大分頁按鈕數
-const maxVisible = 5
-// 從 store 拿到的總頁數
-const totalPages = ref(0)
+const props = defineProps({
+    onPagebar: {
+        type: Function,
+        default: null
+    }
+})
 
 // 初始化取得總頁數
 onMounted(async () => {
@@ -17,28 +19,89 @@ onMounted(async () => {
     totalPages.value = use_app.max_pages
 })
 
-// 計算要顯示的頁碼範圍
+const currentPage = num
+// 最大分頁按鈕數
+const maxVisible = 5
+// 從 store 拿到的總頁數
+const totalPages = ref(0)
 
+// 計算要顯示的頁碼範圍
+const pageRange = computed(() => {
+    const half = Math.floor(maxVisible / 2)
+    let start = currentPage.value - half
+    let end = currentPage.value + half //maxVisible 爲雙數時 加上 -1
+
+    // 避免超出邊界
+    if (start < 1) {
+        start = 1
+        end = maxVisible
+    }
+    if (end > totalPages.value) {
+        end = totalPages.value
+        start = totalPages.value - maxVisible + 1
+    }
+    if (start < 1) start = 1
+    return {
+        start,
+        end,
+        current: currentPage.value,
+        pages: Array.from({ length: end - start + 1 }, (_, i) => start + i)
+    }
+})
 
 // 按鈕點擊
 const Onclick = (page) => {
     currentPage.value = page
-    console.log('選擇頁碼:', page)
+    use_app.page.Page = currentPage.value
+    props.onPagebar()
 }
 
 // 上一頁 / 下一頁
 const prevPage = () => {
     if (currentPage.value > 1) {
         currentPage.value--
+        use_app.page.Page = currentPage.value
+        props.onPagebar()
     }
 }
-const prevPage_min5 = () => {
+const prevPage5 = () => {
     if (currentPage.value > 1) {
-        currentPage.value -= 5
+        const n = currentPage.value
+        if (n - 5 < 1) {
+            currentPage.value = 1
+            use_app.page.Page = currentPage.value
+            props.onPagebar()
+        }
+        else {
+            currentPage.value -= 5
+            use_app.page.Page = currentPage.value
+            props.onPagebar()
+        }
     }
 }
+
 const nextPage = () => {
-    if (currentPage.value < totalPages.value) currentPage.value++
+    if (currentPage.value < totalPages.value) {
+        currentPage.value++
+        use_app.page.Page = currentPage.value
+        props.onPagebar()
+    }
+}
+
+const nextPage5 = () => {
+    if (currentPage.value < totalPages.value) {
+        const n = currentPage.value
+        if (n + 5 > totalPages.value) {
+            currentPage.value = totalPages.value
+            use_app.page.Page = currentPage.value
+            props.onPagebar()
+        }
+        else {
+            currentPage.value += 5
+            use_app.page.Page = currentPage.value
+            props.onPagebar()
+        }
+    }
 }
 
 </script>
@@ -46,7 +109,7 @@ const nextPage = () => {
 <template>
     <div class="d-flex align-items-center">
         <!-- 上一頁 -->
-        <button class="btn btn-primary me-2" @click="prevPage_min5" :disabled="currentPage === 1">-5</button>
+        <button class="btn btn-primary me-2" @click="prevPage5" :disabled="currentPage === 1">-5</button>
         <button class="btn btn-primary me-2" @click="prevPage" :disabled="currentPage === 1">-</button>
 
         <!-- 動態頁碼按鈕 -->
@@ -59,6 +122,7 @@ const nextPage = () => {
 
         <!-- 下一頁 -->
         <button class="btn btn-primary ms-2" @click="nextPage" :disabled="currentPage === totalPages">+</button>
+        <button class="btn btn-primary ms-2" @click="nextPage5" :disabled="currentPage === totalPages">+5</button>
     </div>
 </template>
 
