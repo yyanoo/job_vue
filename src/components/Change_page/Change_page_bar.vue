@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useAppStore } from '../../store/app_store'
 import { usePagination } from './ChangePage';
 
@@ -13,32 +13,23 @@ const props = defineProps({
     }
 })
 
-// 初始化取得總頁數
-onMounted(async () => {
-    await use_app.Get_Page_order()
-    totalPages.value = use_app.max_pages
-})
-
 const currentPage = num
-// 最大分頁按鈕數
-const maxVisible = 5
-// 從 store 拿到的總頁數
-const totalPages = ref(0)
+const maxVisible = 10
 
 // 計算要顯示的頁碼範圍
 const pageRange = computed(() => {
     const half = Math.floor(maxVisible / 2)
     let start = currentPage.value - half
-    let end = currentPage.value + half //maxVisible 爲雙數時 加上 -1
+    let end = currentPage.value + half - 1 //maxVisible 爲雙數時 加上 -1
 
     // 避免超出邊界
     if (start < 1) {
         start = 1
         end = maxVisible
     }
-    if (end > totalPages.value) {
-        end = totalPages.value
-        start = totalPages.value - maxVisible + 1
+    if (end > use_app.max_pages) {
+        end = use_app.max_pages
+        start = use_app.max_pages - maxVisible + 1
     }
     if (start < 1) start = 1
     return {
@@ -81,7 +72,7 @@ const prevPage5 = () => {
 }
 
 const nextPage = () => {
-    if (currentPage.value < totalPages.value) {
+    if (currentPage.value < use_app.max_pages) {
         currentPage.value++
         use_app.page.Page = currentPage.value
         props.onPagebar()
@@ -89,10 +80,10 @@ const nextPage = () => {
 }
 
 const nextPage5 = () => {
-    if (currentPage.value < totalPages.value) {
+    if (currentPage.value < use_app.max_pages) {
         const n = currentPage.value
-        if (n + 5 > totalPages.value) {
-            currentPage.value = totalPages.value
+        if (n + 5 > use_app.max_pages) {
+            currentPage.value = use_app.max_pages
             use_app.page.Page = currentPage.value
             props.onPagebar()
         }
@@ -109,8 +100,8 @@ const nextPage5 = () => {
 <template>
     <div class="d-flex align-items-center">
         <!-- 上一頁 -->
-        <button class="btn btn-primary me-2" @click="prevPage5" :disabled="currentPage === 1">-5</button>
-        <button class="btn btn-primary me-2" @click="prevPage" :disabled="currentPage === 1">-</button>
+        <button class="btn btn-primary me-2" @click="prevPage5">-5</button>
+        <button class="btn btn-primary me-2" @click="prevPage">-</button>
 
         <!-- 動態頁碼按鈕 -->
         <div class="d-flex" v-for="page in pageRange.pages" :key="page">
@@ -121,8 +112,8 @@ const nextPage5 = () => {
         </div>
 
         <!-- 下一頁 -->
-        <button class="btn btn-primary ms-2" @click="nextPage" :disabled="currentPage === totalPages">+</button>
-        <button class="btn btn-primary ms-2" @click="nextPage5" :disabled="currentPage === totalPages">+5</button>
+        <button class="btn btn-primary ms-2" @click="nextPage">+</button>
+        <button class="btn btn-primary ms-2" @click="nextPage5">+5</button>
     </div>
 </template>
 
