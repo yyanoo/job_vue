@@ -1,10 +1,14 @@
 <script setup>
-import { useAppStore } from '../../store/app_store'
+//store import
 import { usePageStore } from './ChangePage';
-
-
-const use_app = useAppStore()
 const use_page = usePageStore()
+
+//icon improt
+import Chevron_left from '../Icon/Chevron_left.vue';
+import Chevron_double_left from '../Icon/Chevron_double_left.vue';
+import Chevron_right from '../Icon/Chevron_right.vue';
+import Chevron_double_right from '../Icon/Chevron_double_right.vue';
+
 
 const props = defineProps({
     onPage: {
@@ -14,9 +18,8 @@ const props = defineProps({
 })
 
 // 按鈕點擊
-const Onclick = (page) => {
-    currentPage.value = page
-    use_app.page.Page = currentPage.value
+const Onclick = async (page) => {
+    await use_page.click(page)
     props.onPage()
 }
 
@@ -44,8 +47,13 @@ const prevPage5 = async () => {
 <template>
     <div class="d-flex align-items-center">
         <!-- 上一頁 -->
-        <button class="btn btn-primary me-2" @click="prevPage5">-5</button>
-        <button class="btn btn-primary me-2" @click="prevPage">-</button>
+        <button class="btn btn-primary me-2" @click="prevPage5">
+            <Chevron_double_left size="16" />
+            5
+        </button>
+        <button class="btn btn-primary me-2" @click="prevPage">
+            <Chevron_left size="16" />
+        </button>
 
         <!-- 動態頁碼按鈕 -->
         <div class="d-flex" v-for="page in use_page.pageRange.pages" :key="page">
@@ -56,8 +64,13 @@ const prevPage5 = async () => {
         </div>
 
         <!-- 下一頁 -->
-        <button class="btn btn-primary ms-2" @click="nextPage">+</button>
-        <button class="btn btn-primary ms-2" @click="nextPage5">+5</button>
+        <button class="btn btn-primary ms-2" @click="nextPage">
+            <Chevron_right size="16" />
+        </button>
+        <button class="btn btn-primary ms-2" @click="nextPage5">
+            5
+            <Chevron_double_right size="16" />
+        </button>
     </div>
 </template>
 

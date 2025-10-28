@@ -12,12 +12,6 @@ export const useAppStore = defineStore('app', {
             Page: 1,
             Page_size: 4,
         },
-        pageRange: {
-            start: 1,
-            end: 2,
-            current: 5,
-            pages: []
-        },
         max_pages: 1,
         req_page: {},
     }),

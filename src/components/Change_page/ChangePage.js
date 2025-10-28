@@ -65,6 +65,10 @@ export const usePageStore = defineStore('page', () => {
         setPage(num.value + 5)
     }
 
+    const click = (page) => {
+        setPage(page)
+    }
+
     // 重置頁碼
     const reset = () => {
         setPage(1)
@@ -83,6 +87,7 @@ export const usePageStore = defineStore('page', () => {
         min_num_5,
         add_num,
         add_num_5,
+        click,
         reset
     }
 })
