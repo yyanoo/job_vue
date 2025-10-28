@@ -14,13 +14,13 @@ const props = defineProps({
 })
 
 const currentPage = num
-const maxVisible = 10
+const maxVisible = 5
 
 // 計算要顯示的頁碼範圍
 const pageRange = computed(() => {
     const half = Math.floor(maxVisible / 2)
     let start = currentPage.value - half
-    let end = currentPage.value + half - 1 //maxVisible 爲雙數時 加上 -1
+    let end = currentPage.value + half //maxVisible 爲雙數時 加上 -1
 
     // 避免超出邊界
     if (start < 1) {
