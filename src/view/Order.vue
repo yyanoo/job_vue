@@ -55,8 +55,8 @@ const Del = async () => {
         </div>
         <div class="">
             <div class="test0" style="margin-bottom: 10px;">
-                <Change_page_bar :on-pagebar="GetPage" style="margin-bottom: 15px;"/>
-                <Change_page :on-page="GetPage" />
+                <Change_page_bar :onPage="GetPage" style="margin-bottom: 15px;"/>
+                <Change_page :onPage="GetPage" />
             </div>
             <!-- 送出需要查詢的頁面 到後端 -->
             <div class="test0"><button class="btn btn-primary" @click="GetPage">送出</button></div>
