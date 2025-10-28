@@ -1,6 +1,9 @@
 <script setup>
 //store import
+import { useAppStore } from '../../store/app_store'
 import { usePageStore } from './ChangePage';
+
+const use_app = useAppStore()
 const use_page = usePageStore()
 
 //icon improt
@@ -19,26 +22,36 @@ const props = defineProps({
 
 // 按鈕點擊
 const Onclick = async (page) => {
+    const n = use_page.num
     await use_page.click(page)
+    if (n == use_page.num) return
     props.onPage()
 }
 
 const nextPage = async () => {
+    const n = use_page.num
     await use_page.add_num()
+    if (n == use_app.max_pages) return
     props.onPage()
 }
 
 const nextPage5 = async () => {
+    const n = use_page.num
     await use_page.add_num_5()
+    if (n == use_app.max_pages) return
     props.onPage()
 }
 
 const prevPage = async () => {
+    const n = use_page.num
     await use_page.min_num()
+    if (n == 1) return
     props.onPage()
 }
 const prevPage5 = async () => {
+    const n = use_page.num
     await use_page.min_num_5()
+    if (n == 1) return
     props.onPage()
 }
 
@@ -47,30 +60,27 @@ const prevPage5 = async () => {
 <template>
     <div class="d-flex align-items-center">
         <!-- 上一頁 -->
-        <button class="btn btn-primary me-2" @click="prevPage5">
+        <!-- <button class="btn btn-primary button_margin" @click="prevPage5">
             <Chevron_double_left size="16" />
-            5
-        </button>
-        <button class="btn btn-primary me-2" @click="prevPage">
+        </button> -->
+        <button class="btn btn-primary button_margin" @click="prevPage">
             <Chevron_left size="16" />
         </button>
 
         <!-- 動態頁碼按鈕 -->
         <div class="d-flex" v-for="page in use_page.pageRange.pages" :key="page">
-            <button class="btn btn-primary" :class="{ active: use_page.num === page }"
-                style="margin-left: 5px; margin-right: 5px;" @click="Onclick(page)">
+            <button class="btn btn-primary button_margin" :class="{ active: use_page.num === page }" @click="Onclick(page)">
                 {{ page }}
             </button>
         </div>
 
         <!-- 下一頁 -->
-        <button class="btn btn-primary ms-2" @click="nextPage">
+        <button class="btn btn-primary button_margin" @click="nextPage">
             <Chevron_right size="16" />
         </button>
-        <button class="btn btn-primary ms-2" @click="nextPage5">
-            5
+        <!-- <button class="btn btn-primary button_margin" @click="nextPage5">
             <Chevron_double_right size="16" />
-        </button>
+        </button> -->
     </div>
 </template>
 
@@ -78,5 +88,15 @@ const prevPage5 = async () => {
 button.active {
     background-color: #007bff50;
     color: white;
+}
+
+.button_margin {
+    margin: 0 5px;
+}
+
+@media screen and (max-width: 576px) {
+    .button_margin {
+        margin: 0 3px;
+    }
 }
 </style>

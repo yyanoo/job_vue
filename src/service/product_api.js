@@ -16,6 +16,17 @@ export async function createProduct(data) {
     return res.json();
 }
 
+export async function findProduct(data) {
+    const res = await fetch(`${base_url}find_product`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    return res.json();
+}
+
 export async function updateProduct(data) {
     const res = await fetch(`${base_url}update`, {
         method: "PUT",

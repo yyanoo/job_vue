@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useOrderStore } from '../store/order_store'
+import { useOrderStore } from '../../store/order_store'
 
 const order_store = useOrderStore()
 
@@ -105,7 +105,7 @@ const Del_Props = async () => {
         <div class="modal-content" style="transform: translateY(150px);">
           <div class="container">
             <!-- 關鍵:用 currentItem 來顯示資料 -->
-            <div class="text-content" v-if="currentItem">
+            <div class="text-content" v-if="currentItem" style="padding: 10px;">
               <div class="Title">
                 <h3>OrderID : {{ currentItem.orderID }}</h3>
                 <div class="button_close" data-bs-dismiss="modal" style="transform: translateY(-10px);">

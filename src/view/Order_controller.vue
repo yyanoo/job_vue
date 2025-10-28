@@ -6,13 +6,9 @@ const use_product = useProductStore()
 const onclick = async () => {
     await use_product.find_Product()
     console.log(use_product.check)
-    if (use_product.check == null) {
+    if (use_product.check == null){
         alert('aaa')
     }
-}
-
-const test1 = () => {
-    console.log(use_product.check)
 }
 </script>
 
@@ -22,7 +18,6 @@ const test1 = () => {
             <div class="fs-5" style="margin-right: 10px;">Order</div>
             <input type="text" style="margin-right: 10px;" v-model="use_product.data_res.ProductID">
             <button @click="onclick">click</button>
-            <button @click="test1">click1</button>
         </div>
     </div>
 </template>

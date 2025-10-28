@@ -6,8 +6,8 @@ import { useOrderStore } from '../store/order_store';
 import Change_page from '../components/Change_page/Change_page.vue';
 import Change_page_bar from '../components/Change_page/Change_page_bar.vue';
 import Loading from '../components/Loading.vue'
-import Order_List from '../components/Order_List.vue';
-import Create_Order_Model from '../components/Create_Order_Model.vue';
+import Order_List from '../components/Order/Order_List.vue';
+import Create_Order_Model from '../components/Order/Create_Order_Model.vue';
 
 const app_store = useAppStore()
 const order_store = useOrderStore()
@@ -83,7 +83,7 @@ const Del = async () => {
     margin: 0 15px 20px 0;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 576px) {
     .test1 {
         display: flex;
         flex-direction: column;

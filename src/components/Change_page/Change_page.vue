@@ -21,22 +21,30 @@ const props = defineProps({
 })
 
 const add_page = async () => {
+    const n = use_page.num
     await use_page.add_num()
+    if (n == use_app.max_pages) return
     props.onPage()
 }
 
 const add_page5 = async () => {
+    const n = use_page.num
     await use_page.add_num_5()
+    if (n == use_app.max_pages) return
     props.onPage()
 }
 
 const min_page = async () => {
+    const n = use_page.num
     await use_page.min_num()
+    if (n == 1) return
     props.onPage()
 }
 
 const min_page5 = async () => {
+    const n = use_page.num
     await use_page.min_num_5()
+    if (n == 1) return
     props.onPage()
 }
 </script>
@@ -46,7 +54,6 @@ const min_page5 = async () => {
         <!-- 往後 x頁 -->
         <button class="btn btn-primary" @click="min_page5" style="margin-right: 10px;">
             <Chevron_double_left size="16" />
-            5
         </button>
         <button class="btn btn-primary" @click="min_page" style="margin-right: 10px;">
             <Chevron_left size="16" />
@@ -63,7 +70,6 @@ const min_page5 = async () => {
             <Chevron_right size="16" />
         </button>
         <button class="btn btn-primary" @click="add_page5" style="margin-left: 10px;">
-            5
             <Chevron_double_right size="16" />
         </button>
     </div>

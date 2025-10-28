@@ -8,7 +8,7 @@ export const useOrderStore = defineStore('order', {
 
     state: () => ({
         //存取req 的後端資料
-        data: {},
+        data: [],
         //res 給後端的資料
         data_res: {
             OrderID: '',
@@ -16,18 +16,12 @@ export const useOrderStore = defineStore('order', {
             Qty: '',
             Discount: ''
         },
+        //create 送出 list 使用
+        data_res_arr: [],
     }),
 
     actions: {
-        data_reset() {
-            this.data_res = {
-                OrderID: '',
-                ProductID: '',
-                Qty: '',
-                Discount: '',
-            }
-        },
-
+        //初次載入頁面時
         async getOrder_api() {
             try {
                 app_store.isLoading = true
@@ -41,7 +35,7 @@ export const useOrderStore = defineStore('order', {
                 await app_store.Check_Max_page()
             }
         },
-
+        //頁面更新時
         async getPageOrder_api() {
             try {
                 app_store.isLoading = true
@@ -55,9 +49,6 @@ export const useOrderStore = defineStore('order', {
         },
 
         async createOrder_api() {
-            if (this.data_res.OrderID == '' || this.data_res.ProductID == '' || this.data_res.Qty == '' || this.data_res.Qty == '') {
-                return alert("請給完整資料")
-            }
             try {
                 //送出前清理 不必要值等等
                 const cleanData = app_store.cleanEmptyToNull(this.data_res)
@@ -71,13 +62,12 @@ export const useOrderStore = defineStore('order', {
         },
 
         async updateOrder_api() {
-            if (this.data_res.OrderID == '' || this.data_res.ProductID == '') {
+            if (this.data_res.OrderID == '' || this.data_res.ProductID == '' || this.data_res.Qty == '' || this.data_res.Qty == '') {
                 return alert("請給完整資料")
             }
             try {
                 //送出前清理 不必要值等等
                 const cleanData = app_store.cleanEmptyToNull(this.data_res)
-                console.log(cleanData)
                 const req = await updateOrder(cleanData)
                 alert(req.message)
             } catch (e) {
@@ -100,6 +90,15 @@ export const useOrderStore = defineStore('order', {
                 console.error('Error fetching orders:', e)
             } finally {
                 await this.getOrder_api()
+            }
+        },
+
+        data_reset() {
+            this.data_res = {
+                OrderID: '',
+                ProductID: '',
+                Qty: '',
+                Discount: '',
             }
         },
     }
