@@ -60,16 +60,17 @@ const prevPage5 = async () => {
 <template>
     <div class="d-flex align-items-center">
         <!-- 上一頁 -->
-        <!-- <button class="btn btn-primary button_margin" @click="prevPage5">
+        <button class="btn btn-primary button_margin" @click="prevPage5">
             <Chevron_double_left size="16" />
-        </button> -->
+        </button>
         <button class="btn btn-primary button_margin" @click="prevPage">
             <Chevron_left size="16" />
         </button>
 
         <!-- 動態頁碼按鈕 -->
         <div class="d-flex" v-for="page in use_page.pageRange.pages" :key="page">
-            <button class="btn btn-primary button_margin" :class="{ active: use_page.num === page }" @click="Onclick(page)">
+            <button class="btn btn-primary button_margin" :class="{ active: use_page.num === page }"
+                @click="Onclick(page)">
                 {{ page }}
             </button>
         </div>
@@ -78,9 +79,9 @@ const prevPage5 = async () => {
         <button class="btn btn-primary button_margin" @click="nextPage">
             <Chevron_right size="16" />
         </button>
-        <!-- <button class="btn btn-primary button_margin" @click="nextPage5">
+        <button class="btn btn-primary button_margin" @click="nextPage5">
             <Chevron_double_right size="16" />
-        </button> -->
+        </button>
     </div>
 </template>
 
