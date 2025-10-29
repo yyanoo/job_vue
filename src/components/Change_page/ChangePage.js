@@ -10,11 +10,11 @@ export const usePageStore = defineStore('page', () => {
     // 計算屬性：當前頁面範圍
     const pageRange = computed(() => {
         const currentPage = num.value
-        const maxVisible = 5
+        const maxVisible = 10
         const half = Math.floor(maxVisible / 2)
 
         let start = currentPage - half
-        let end = currentPage + half // maxVisible 為雙數時加上 -1
+        let end = currentPage + half -1// maxVisible 為雙數時加上 -1
 
         // 避免超出邊界
         if (start < 1) {

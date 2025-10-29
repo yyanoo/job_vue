@@ -32,18 +32,18 @@ const add_item = async () => {
             return alert("請輸入 Qty 和 Discount");
         }
 
-        //檢查 List 是否有相同 productid
-        const check = arr.some(item => item.ProductID === productid.value)
-        if (check) {
-            return alert("List有相同 Product")
-        }
-
         //呼叫api 檢查 order
         await use_check.check_order(orderid.value)
         if (use_check.check_bool.data == false) {
             is_order.value = true
-        } else if (use_check.check.data == true) {
+        } else if (use_check.check_bool.data == true) {
             return alert("OrderID 已被建立")
+        }
+        
+        //檢查 List 是否有相同 productid
+        const check = arr.some(item => item.ProductID === productid.value)
+        if (check) {
+            return alert("List有相同 Product")
         }
 
         //呼叫api 檢查 product
