@@ -10,14 +10,8 @@ export async function getOrder_pageNum() {
     return res.json();
 }
 
-export async function getOrder_page(data) {
-    const res = await fetch(`${base_url}get_page`, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
+export async function getOrder_page(page, pagesize) {
+    const res = await fetch(`${base_url}page/${page}/${pagesize}`)
     return res.json();
 }
 

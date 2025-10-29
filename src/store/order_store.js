@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useAppStore } from './app_store'
-import { getOrder, createOrder, updateOrder, delOrder, getOrder_page } from '../service/orders_api'
+import { createOrder, updateOrder, delOrder, getOrder_page } from '../service/orders_api'
 
 const app_store = useAppStore()
 
@@ -25,7 +25,7 @@ export const useOrderStore = defineStore('order', {
         async getOrder_api() {
             try {
                 app_store.isLoading = true
-                const req = await getOrder_page(app_store.page)
+                const req = await getOrder_page(app_store.page.Page, app_store.page.Page_size)
                 this.data = req.data
                 app_store.req_page = req.page
             } catch (e) {
@@ -39,7 +39,7 @@ export const useOrderStore = defineStore('order', {
         async getPageOrder_api() {
             try {
                 app_store.isLoading = true
-                const req = await getOrder_page(app_store.page)
+                const req = await getOrder_page(app_store.page.Page, app_store.page.Page_size)
                 this.data = req.data
             } catch (e) {
                 console.error('Error fetching orders:', e)

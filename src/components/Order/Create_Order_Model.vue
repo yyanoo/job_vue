@@ -1,10 +1,11 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useOrderStore } from '../../store/order_store'
-import { useProductStore } from '../../store/product_store';
+import { useCheckStore } from '../../store/check_data_store';
+
 
 const use_order = useOrderStore()
-const use_product = useProductStore()
+const use_check = useCheckStore()
 
 const props = defineProps({
     onCreate: {
@@ -19,28 +20,38 @@ const orderid = ref('')
 const productid = ref('')
 const qty = ref()
 const discount = ref()
+const is_order = ref(false)
 
+//新增 order list 要 res 到後端時將 list 一次送出到後端建立 data
 const add_item = async () => {
+    //檢查 input 是否 有 data
     if (orderid.value && productid.value && qty.value && discount.value) {
+
         //確認 discount 和 qty 是否超過 或小於一般 數值
         if (discount.value > 100 || discount.value < 1 || qty.value < 1) {
             return alert("請輸入 Qty 和 Discount");
         }
 
-        //檢查 arr 裏 是否有相同 productid
+        //檢查 List 是否有相同 productid
         const check = arr.some(item => item.ProductID === productid.value)
         if (check) {
-            return alert("已有相同 Product")
+            return alert("List有相同 Product")
         }
 
-        //呼叫api 來檢查是否有這個 Product
-        use_product.data_res.ProductID = productid.value
-        await use_product.find_Product()
-        if (!use_product.check) {
+        //呼叫api 檢查 order
+        await use_check.check_order(orderid.value)
+        if (use_check.check_bool.data == false) {
+            is_order.value = true
+        } else if (use_check.check.data == true) {
+            return alert("OrderID 已被建立")
+        }
+
+        //呼叫api 檢查 product
+        await use_check.check_product(productid.value)
+        if (!use_check.check) {
             return alert("找不到相關 Product")
         }
 
-        // 確認欄位都有值
         // 將資料加入陣列
         arr.push({
             OrderID: orderid.value,
@@ -48,11 +59,12 @@ const add_item = async () => {
             Qty: qty.value,
             Discount: discount.value
         });
-        // 清空輸入欄位
+
+        // 清空輸入input 欄位
         productid.value = '';
         qty.value = '';
         discount.value = '';
-        
+
     } else {
         alert("請填寫完整欄位");
     }
@@ -69,6 +81,8 @@ const New_Order = async () => {
 
 const del_item = (index) => {
     arr.splice(index, 1);
+    use_check.data.splice(index, 1)
+    console.log(use_check.data)
 }
 </script>
 
@@ -82,25 +96,37 @@ const del_item = (index) => {
     <div class="modal fade" id="createOrder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="createOrderLabel" aria-hidden="true">
         <div class="modal-dialog">
+
             <!-- Model Header -->
             <div class="modal-content" style="transform: translateY(100px);">
                 <div class="modal-header" style="margin-top: 10px;">
                     <h1 class="modal-title fs-4" id="createOrderLabel" style="margin-left: 10px;">OrderID :</h1>
+
                     <!-- OrderID .value -->
-                    <input type="text" placeholder="OrderID" v-model="orderid">
+                    <!-- 未輸入 OrderID -->
+                    <div class="" v-if="!is_order">
+                        <input type="text" placeholder="OrderID" v-model="orderid">
+                    </div>
+                    <!-- 已輸入 OrderID -->
+                    <div class="" v-if="is_order">
+                        <div class="fs-4" style="margin-left: 10px;">{{ orderid }}</div>
+                    </div>
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         style="transform: translateY(-15px);"></button>
                 </div>
+
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div class="d-flex flex-column ">
-                        <!-- 生成 list 對應 item -->
+
+                        <!-- 將 list資料 列出來 能夠響應式修改 list資料 -->
                         <div v-for="(item, index) in arr" :key="index" class="d-flex justify-content-center"
                             style="margin-bottom: 10px;">
                             <div class="box">
                                 <div class="">ProductID :</div>
                                 <!-- Product .value -->
-                                <input type="text" placeholder="ProductID" v-model="item.ProductID">
+                                <div class="" style="margin-left: 10px; margin-right: 10px;">{{ item.ProductID }}</div>
                             </div>
                             <div class="box">
                                 <div class="">Qty :</div>
@@ -120,6 +146,8 @@ const del_item = (index) => {
                                 </button>
                             </div>
                         </div>
+
+                        <!-- 將資料存到 ref 並且送出到 list -->
                         <div class="d-flex justify-content-center">
                             <div class="box">
                                 <div class="">ProductID :</div>
@@ -146,6 +174,8 @@ const del_item = (index) => {
                         </div>
                     </div>
                 </div>
+
+                <!-- 送出 req order 按鈕 -->
                 <!-- Modal Button -->
                 <div class="modal-footer d-flex justify-content-between">
                     <button type="button" class="btn btn-primary" @click="New_Order"
