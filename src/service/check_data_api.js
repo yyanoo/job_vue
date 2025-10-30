@@ -1,4 +1,4 @@
-const base_url = "https://localhost:7145/api/check/"
+const base_url = "https://localhost:7145/api/orderproduct/"
 
 export async function Check_order(id) {
     const res = await fetch(`${base_url}order/${id}`)

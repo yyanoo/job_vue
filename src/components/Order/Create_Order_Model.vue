@@ -58,7 +58,6 @@ const add_item = async () => {
 };
 
 const New_Order = async () => {
-    add_item()
     use_order.data_res_arr = Array.from(arr)
     console.log(use_order.data_res_arr)
     // if (props.onCreate) {
@@ -71,6 +70,21 @@ const del_item = (index) => {
     use_check.data.splice(index, 1)
     console.log(use_check.data)
 }
+
+const vInputLimit = {
+    mounted(el) {
+        el.addEventListener('input', (e) => {
+            let val = Number(e.target.value);
+            if (isNaN(val)) val = 1;
+            if (val < 0) val = 1;
+            if (val > 100) val = 100;
+            if (e.target.value != val) {
+                e.target.value = val;
+                e.target.dispatchEvent(new Event('input'));
+            }
+        });
+    }
+};
 </script>
 
 <template>
@@ -94,22 +108,22 @@ const del_item = (index) => {
 
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <div class="d-flex flex-column ">
+                    <div class="container">
 
                         <!-- 將資料存到 ref 並且送出到 list -->
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex" style="padding: 5px;">
                             <div class="box">
                                 <div class="">ProductID :</div>
                                 <!-- Product .value -->
-                                <input type="text" placeholder="ProductID" id="product" v-model="productid">
+                                <input type="number" placeholder="ProductID" id="product" v-model="productid">
                             </div>
                             <div class="box">
                                 <div class="">Qty :</div>
                                 <!-- Qty .value -->
-                                <input type="number" class="input-box" id="qty" v-model="qty">
+                                <input type="number" class="input-box" id="qty" v-model="qty" v-input-limit>
                                 <div class="">Discount :</div>
                                 <!-- Discount .value -->
-                                <input type="number" class="input-box" id="discount" v-model="discount">
+                                <input type="number" class="input-box" id="discount" v-model="discount" v-input-limit>
                                 <!-- 新增 index到 list -->
                                 <button type="button" class="btn btn-primary" style="margin-left: 20px;"
                                     @click="add_item">
@@ -123,23 +137,11 @@ const del_item = (index) => {
                         </div>
 
                         <!-- 將 list資料 列出來 能夠響應式修改 list資料 -->
-                        <div v-for="(item, index) in arr" :key="index" class="d-flex justify-content-center"
-                            style="margin-top: 10px;">
+                        <div v-for="(item, index) in arr" :key="index" class="d-flex" style="padding: 5px;">
+
                             <div class="box">
-                                <div class="">ProductID :</div>
-                                <!-- Product .value -->
-                                <div class="" style="margin-left: 10px; margin-right: 10px;">{{ item.ProductID }}</div>
-                            </div>
-                            <div class="box">
-                                <div class="">Qty :</div>
-                                <!-- Qty .value -->
-                                <input type="number" class="input-box" v-model="item.Qty">
-                                <div class="">Discount :</div>
-                                <!-- Discount .value -->
-                                <input type="number" class="input-box" v-model="item.Discount">
                                 <!-- 刪除 list 對應 index 按鈕 -->
-                                <button type="button" class="btn btn-primary" style="margin-left: 20px;"
-                                    @click="del_item(index)">
+                                <button type="button" class="btn btn-primary" @click="del_item(index)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-trash3" viewBox="0 0 16 16">
                                         <path
@@ -147,8 +149,37 @@ const del_item = (index) => {
                                     </svg>
                                 </button>
                             </div>
-                        </div>
 
+                            <div class="" style="margin-left: 15px;">
+                                <div class="box">
+                                    <div class="d-flex">
+                                        <div class="">Name :</div>
+                                        <div class=""> {{ use_check.data[index].name }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="box">
+                                    <div class="">ProductID :</div>
+                                    <!-- Product .value -->
+                                    <div class="me-2">{{ item.ProductID }}</div>
+                                    <!-- Qty .value -->
+                                    <div class="">Qty :</div>
+                                    <input type="number" class="input-box me-2" v-model="item.Qty" v-input-limit>
+                                    <!-- Discount .value -->
+                                    <div class="">Discount :</div>
+                                    <input type="number" class="input-box me-2" v-model="item.Discount" v-input-limit>
+                                    <div class="">Price :</div>
+                                    <div class="me-2">
+                                        {{ use_check.data[index].listPrice }}
+                                    </div>
+                                    <div class="">Total :</div>
+                                    <div class="me-2">
+                                        {{ (use_check.data[index].listPrice * item.Qty * item.Discount) / 100 }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -176,6 +207,7 @@ input {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .box-out {
