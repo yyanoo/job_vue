@@ -3,25 +3,25 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/',
-    redirect: '/Index',
+    redirect: '/index',
   },
   {
-    path: '/Index',
+    path: '/index',
     name: 'Index',
     component: () => import('../view/Index.vue')
   },
   {
-    path: '/Order',
+    path: '/order',
     name: 'Order',
     component: () => import('../view/Order.vue')
   },
   {
-    path: '/Ordercontroller',
-    name: 'Ordercontroller',
-    component: () => import('../view/Order_controller.vue')
+    path: '/searchOrder',
+    name: 'SearchOrder',
+    component: () => import('../view/SearchOrder.vue')
   },
   {
-    path: '/Product',
+    path: '/product',
     name: 'Product',
     component: () => import('../view/Product.vue')
   },

@@ -10,8 +10,8 @@ export async function getOrder_pageNum() {
     return res.json();
 }
 
-export async function getOrder_page(page, pagesize) {
-    const res = await fetch(`${base_url}page/${page}/${pagesize}`)
+export async function getOrder_page(page, page_size) {
+    const res = await fetch(`${base_url}page/${page}/${page_size}`)
     return res.json();
 }
 

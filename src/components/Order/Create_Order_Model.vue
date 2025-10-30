@@ -174,7 +174,8 @@ const vInputLimit = {
                                     </div>
                                     <div class="">Total :</div>
                                     <div class="me-2">
-                                        {{ (use_check.data[index].listPrice * item.Qty * item.Discount) / 100 }}
+                                        {{ Math.round((use_check.data[index].listPrice * item.Qty * item.Discount) /
+                                            100) }}
                                     </div>
                                 </div>
 
